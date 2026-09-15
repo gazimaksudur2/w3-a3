@@ -1,9 +1,15 @@
-const API_URL = process.env.API_URL;
-
-export function apiUrl(path: string) {
-  if (!API_URL) {
-    throw new Error("API_URL is not configured.");
+function buildApiUrl(baseUrl: string | undefined, path: string) {
+  if (!baseUrl) {
+    throw new Error("API URL is not configured.");
   }
 
-  return `${API_URL.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
+  return `${baseUrl.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
+}
+
+export function apiUrl(path: string) {
+  return buildApiUrl(process.env.API_URL, path);
+}
+
+export function publicApiUrl(path: string) {
+  return buildApiUrl(process.env.NEXT_PUBLIC_API_URL, path);
 }

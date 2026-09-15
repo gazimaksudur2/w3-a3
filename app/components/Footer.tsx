@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    // =========== FOOTER ========000000000000000000000000000000000000000000000000000000000000000000000000000===
+    //FOOTER
     <footer className="bg-gray-50 dark:bg-gray-900 text-black dark:text-white border-t border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
