@@ -1,8 +1,8 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { apiUrl } from "./api";
 
-const API_URL = "https://api.escuelajs.co/api/v1";
 const ACCESS_COOKIE = "mindful_access_token";
 const REFRESH_COOKIE = "mindful_refresh_token";
 
@@ -12,11 +12,12 @@ type AuthUser = {
   id: number;
   name: string;
   email: string;
+  role: "customer" | "admin";
   avatar: string;
 };
 
 async function platziRequest<T>(path: string, options?: RequestInit) {
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await fetch(apiUrl(path), {
     ...options,
     headers: { "Content-Type": "application/json", ...options?.headers },
     cache: "no-store",
@@ -82,7 +83,7 @@ export async function signupAction(details: { name: string; email: string; passw
     body: JSON.stringify({ email: details.email }),
   });
 
-  if (availability.isAvailable) {
+  if (!availability.isAvailable) {
     throw new Error("An account with this email already exists.");
   }
 
