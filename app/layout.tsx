@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fast Buy ecommerce platform",
+  title: "Fast Buy",
   description: "Fast Buy is a modern ecommerce platform that allows you to create and manage your online store with ease. It offers a wide range of features, including product management, order tracking, and customer support.",
 };
 
