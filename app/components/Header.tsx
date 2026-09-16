@@ -71,13 +71,13 @@ export default function Header() {
           {/* DESKTOP NAVIGATION */}
           <nav className="hidden items-center gap-8 md:flex">
             {["Home", "Products", "About", "Contact"].map((item) => (
-              <a
+              <Link
                 key={item}
-                href={`#${item.toLowerCase()}`}
+                href={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
                 className="text-sm font-medium text-gray-600 transition-colors duration-200 hover:text-black dark:text-gray-400 dark:hover:text-white"
               >
                 {item}
-              </a>
+              </Link>
             ))}
           </nav>
 

@@ -19,7 +19,7 @@ interface Slide {
 const slides: Slide[] = [
   {
     id: 1,
-    image: "/HeroImage4.png",
+    image: "/HeroImage1.png",
     eyebrow: "New Collection",
     title: "Discover Products Made for Your Everyday Life",
     description:
@@ -55,7 +55,7 @@ const slides: Slide[] = [
   },
   {
     id: 4,
-    image: "/HeroImage1.png",
+    image: "/HeroImage4.png",
     eyebrow: "Special Selection",
     title: "Find Something You'll Love Today",
     description:
