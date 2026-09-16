@@ -30,9 +30,9 @@ export default function HighlightProducts() {
   const [selectedPost, setSelectedPost] = useState(posts[0]);
 
   return (
-    <section id="featured" className="py-16 bg-white dark:bg-gray-900">
+    <section id="featured" className="py-16 bg-background dark:bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <h2 className="text-3xl font-light text-black dark:text-white mb-10">
+        <h2 className="text-3xl font-light text-navy dark:text-white mb-10">
           Featured Posts
         </h2>
 
@@ -45,10 +45,10 @@ export default function HighlightProducts() {
                 className="post-item block w-full cursor-pointer text-left"
                 onClick={() => setSelectedPost(post)}
               >
-              <span className="text-xs uppercase text-gray-500 dark:text-gray-400">
+              <span className="text-xs uppercase text-text-secondary">
                   {post.category}
               </span>
-              <h3 className="mt-1 text-xl font-light text-black dark:text-white">
+              <h3 className="mt-1 text-xl font-light text-navy dark:text-white">
                   {post.title}
               </h3>
               <hr className="my-4 border-gray-200 dark:border-gray-800" />

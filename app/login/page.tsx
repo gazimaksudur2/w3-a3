@@ -34,8 +34,8 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-50 px-4 dark:bg-gray-900">
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="w-full max-w-md space-y-5 rounded-lg bg-white p-8 shadow-sm dark:bg-gray-800">
+    <main className="flex min-h-screen items-center justify-center bg-surface px-4">
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="w-full max-w-md space-y-5 rounded-lg bg-card p-8 shadow-sm">
         <div className="flex flex-col items-center">
           {/* LOGO */}
           <Link
@@ -44,7 +44,7 @@ export default function LoginPage() {
           >
             <Image src="/fastbuy-brand-logo.png" alt="FastBuy Logo" width={68} height={68} />
           </Link>
-          <h1 className="mt-2 text-3xl font-semibold text-gray-900 dark:text-white">Welcome back</h1>
+          <h1 className="mt-2 text-3xl font-semibold text-navy dark:text-white">Welcome back</h1>
         </div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">
           Email
@@ -62,11 +62,11 @@ export default function LoginPage() {
           {errors.password && <span className="mt-1 block text-sm text-red-600">{errors.password.message}</span>}
         </label>
         {error && <p className="text-sm text-red-600" role="alert">{error}</p>}
-        <button disabled={isSubmitting} type="submit" className="w-full rounded-md bg-gray-900 px-4 py-2 font-medium text-white disabled:opacity-50 dark:bg-white dark:text-gray-900">
+        <button disabled={isSubmitting} type="submit" className="w-full rounded-md bg-brand px-4 py-2 font-medium text-white transition hover:bg-brand-hover disabled:opacity-50">
           {isSubmitting ? "Signing in..." : "Sign in"}
         </button>
-        <p className="text-center text-sm text-gray-600 dark:text-gray-300">
-          Do not have an account? <Link href="/signup" className="font-medium text-blue-600 hover:underline">Sign up</Link>
+        <p className="text-center text-sm text-text-secondary">
+          Do not have an account? <Link href="/signup" className="font-medium text-brand hover:underline">Sign up</Link>
         </p>
       </form>
     </main>

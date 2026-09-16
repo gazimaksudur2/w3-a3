@@ -30,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="font-sans antialiased">
         <AuthProvider>
-          <div className="min-h-screen bg-white text-black dark:bg-gray-950 dark:text-white flex flex-col">
+          <div className="min-h-screen bg-background text-navy dark:text-white flex flex-col">
             <Header />
 
             <main className="flex-1">{children}</main>

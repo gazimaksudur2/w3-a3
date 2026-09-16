@@ -2,7 +2,7 @@ import React from "react";
 
 export default function FAQ() {
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <section className="bg-background dark:bg-surface">
       <div className="container px-6 py-12 mx-auto">
         <h1 className="text-2xl font-semibold text-center text-gray-800 lg:text-3xl dark:text-white">
           Have any Questions?
@@ -17,31 +17,31 @@ export default function FAQ() {
             <div className="mt-4 space-y-4 lg:mt-8">
               <a
                 href="#"
-                className="block text-blue-500 dark:text-blue-400 hover:underline"
+                className="block text-brand hover:underline"
               >
                 General
               </a>
               <a
                 href="#"
-                className="block text-gray-500 dark:text-gray-300 hover:underline"
+                className="block text-text-secondary hover:underline"
               >
                 Trust & Safety
               </a>
               <a
                 href="#"
-                className="block text-gray-500 dark:text-gray-300 hover:underline"
+                className="block text-text-secondary hover:underline"
               >
                 Services
               </a>
               <a
                 href="#"
-                className="block text-gray-500 dark:text-gray-300 hover:underline"
+                className="block text-text-secondary hover:underline"
               >
                 Billing
               </a>
               <a
                 href="#"
-                className="block text-gray-500 dark:text-gray-300 hover:underline"
+                className="block text-text-secondary hover:underline"
               >
                 Office Cleaning
               </a>
@@ -52,7 +52,7 @@ export default function FAQ() {
             <div>
               <button className="flex items-center focus:outline-none">
                 <svg
-                  className="shrink-0 w-6 h-6 text-blue-500"
+                  className="shrink-0 w-6 h-6 text-brand"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -72,9 +72,9 @@ export default function FAQ() {
               </button>
 
               <div className="flex mt-8 md:mx-10">
-                <span className="border border-blue-500"></span>
+                <span className="border border-brand"></span>
 
-                <p className="max-w-3xl px-4 text-gray-500 dark:text-gray-300">
+                <p className="max-w-3xl px-4 text-text-secondary">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Magni, eum quae. Harum officiis reprehenderit ex quia ducimus
                   minima id provident molestias optio nam vel, quidem iure
@@ -89,7 +89,7 @@ export default function FAQ() {
               <button className="flex items-center focus:outline-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="shrink-0 w-6 h-6 text-blue-500"
+                  className="shrink-0 w-6 h-6 text-brand"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -114,7 +114,7 @@ export default function FAQ() {
               <button className="flex items-center focus:outline-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="shrink-0 w-6 h-6 text-blue-500"
+                  className="shrink-0 w-6 h-6 text-brand"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -139,7 +139,7 @@ export default function FAQ() {
               <button className="flex items-center focus:outline-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="shrink-0 w-6 h-6 text-blue-500"
+                  className="shrink-0 w-6 h-6 text-brand"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -164,7 +164,7 @@ export default function FAQ() {
               <button className="flex items-center focus:outline-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="shrink-0 w-6 h-6 text-blue-500"
+                  className="shrink-0 w-6 h-6 text-brand"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

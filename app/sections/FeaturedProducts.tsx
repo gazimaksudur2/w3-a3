@@ -129,22 +129,22 @@ export default function FeaturedProducts() {
   return (
     <section
       id="shop"
-      className="bg-white py-14 sm:py-16 lg:py-20 dark:bg-gray-900"
+      className="bg-background py-14 sm:py-16 lg:py-20 dark:bg-surface"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
 
         {/*HEADER*/}
         <div className="mb-8 flex items-end justify-between gap-4 sm:mb-10">
           <div>
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-gray-500 dark:text-gray-400">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-text-secondary">
               Shop
             </p>
 
-            <h2 className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-3xl lg:text-4xl dark:text-white">
+            <h2 className="text-2xl font-semibold tracking-tight text-navy sm:text-3xl lg:text-4xl dark:text-white">
               Featured Products
             </h2>
 
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-500 sm:text-base dark:text-gray-400">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-text-secondary sm:text-base">
               Discover some of our selected products and keep scrolling
               to explore more.
             </p>
@@ -152,7 +152,7 @@ export default function FeaturedProducts() {
 
           <Link
             href="/products"
-            className="hidden shrink-0 items-center gap-2 text-sm font-medium text-gray-700 transition-colors hover:text-black sm:flex dark:text-gray-300 dark:hover:text-white"
+            className="hidden shrink-0 items-center gap-2 text-sm font-medium text-text-secondary transition-colors hover:text-brand sm:flex"
           >
             View all
 
@@ -200,7 +200,7 @@ export default function FeaturedProducts() {
             <button
               type="button"
               onClick={() => void loadMoreProducts()}
-              className="mt-4 rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-gray-700 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
+              className="mt-4 rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition hover:bg-brand-hover"
             >
               Try again
             </button>
@@ -220,7 +220,7 @@ export default function FeaturedProducts() {
               >
                 <span className="h-5 w-5 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900 dark:border-gray-700 dark:border-t-white" />
 
-                <span className="text-sm text-gray-500 dark:text-gray-400">
+                <span className="text-sm text-text-secondary">
                   Loading more products...
                 </span>
               </div>
@@ -231,7 +231,7 @@ export default function FeaturedProducts() {
         {/*END MESSAGE*/}
         {!hasMore && products.length > 0 && (
           <div className="mt-10 text-center">
-            <p className="text-sm text-gray-400 dark:text-gray-500">
+            <p className="text-sm text-text-secondary">
               You&apos;ve reached the end.
             </p>
           </div>
@@ -241,7 +241,7 @@ export default function FeaturedProducts() {
         <div className="mt-8 sm:hidden">
           <Link
             href="/products"
-            className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-card px-4 py-3 text-sm font-medium text-text-secondary transition-colors hover:bg-surface"
           >
             View all products
 
@@ -333,20 +333,20 @@ function ProductCard({
 
       {/* Product information */}
       <div className="pt-3">
-        <p className="mb-1 truncate text-xs text-gray-400 dark:text-gray-500">
+        <p className="mb-1 truncate text-xs text-text-secondary">
           {product.category?.name}
         </p>
 
-        <h3 className="truncate text-sm font-medium text-gray-900 transition-colors group-hover:text-gray-600 sm:text-base dark:text-gray-100 dark:group-hover:text-gray-300">
+        <h3 className="truncate text-sm font-medium text-navy transition-colors group-hover:text-brand sm:text-base dark:text-white">
           {product.title}
         </h3>
 
         <div className="mt-1.5 flex items-center justify-between gap-2">
-          <p className="text-sm font-semibold text-gray-900 sm:text-base dark:text-white">
+          <p className="text-sm font-semibold text-brand sm:text-base">
             ${product.price.toLocaleString()}
           </p>
 
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition-all duration-300 group-hover:border-gray-900 group-hover:bg-gray-900 group-hover:text-white dark:border-gray-700 dark:text-gray-400 dark:group-hover:border-white dark:group-hover:bg-white dark:group-hover:text-gray-900">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-card text-text-secondary transition-all duration-300 group-hover:border-brand group-hover:bg-brand group-hover:text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
