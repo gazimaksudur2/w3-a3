@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import Image from "next/image";
 
 type Theme = "light" | "dark";
 
@@ -64,12 +65,12 @@ export default function Header() {
             href="/"
             className="text-xl font-light tracking-wide text-black transition-colors dark:text-white"
           >
-            Mindful Living
+            <Image src="/fastbuy-brand-logo.png" alt="FastBuy Logo" width={68} height={68} />
           </Link>
 
           {/* DESKTOP NAVIGATION */}
           <nav className="hidden items-center gap-8 md:flex">
-            {["Blog", "Shop", "About", "Contact"].map((item) => (
+            {["Home", "Products", "About", "Contact"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -401,7 +402,7 @@ export default function Header() {
           isMenuOpen ? "block" : "hidden"
         } space-y-3 border-t border-gray-200 bg-white px-4 pb-4 pt-2 transition-colors dark:border-gray-800 dark:bg-gray-900 md:hidden`}
       >
-        {["Blog", "Shop", "About", "Contact"].map((item) => (
+        {["Home", "Products", "About", "Contact"].map((item) => (
           <a
             key={item}
             href={`#${item.toLowerCase()}`}

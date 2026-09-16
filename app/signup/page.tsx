@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
+import Image from "next/image";
 
 type SignupForm = {
   name: string;
@@ -36,8 +37,14 @@ export default function SignupPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-50 px-4 dark:bg-gray-900">
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="w-full max-w-md space-y-5 rounded-lg bg-white p-8 shadow-sm dark:bg-gray-800">
-        <div>
-          <p className="text-sm font-medium text-gray-500">Mindful Living</p>
+        <div className="flex flex-col items-center">
+          {/* LOGO */}
+          <Link
+            href="/"
+            className="tracking-wide"
+          >
+            <Image src="/fastbuy-brand-logo.png" alt="FastBuy Logo" width={68} height={68} />
+          </Link>
           <h1 className="mt-2 text-3xl font-semibold text-gray-900 dark:text-white">Create an account</h1>
         </div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">

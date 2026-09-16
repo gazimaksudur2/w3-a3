@@ -51,7 +51,7 @@ export default function Footer() {
       <div className="border-t border-gray-200 dark:border-gray-800 py-6 px-4">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-sm text-gray-600 dark:text-gray-400">
-            Copyright © 2025 Mindful Living. All rights reserved.
+            Copyright © 2025 FastBuy. All rights reserved.
           </div>
           <div className="flex gap-4">
             <div className="text-gray-500 dark:text-gray-400">
