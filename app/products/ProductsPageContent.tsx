@@ -15,6 +15,7 @@ export default function ProductsPageContent() {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [category, setCategory] = useState(initialCategory);
   const [maxPrice, setMaxPrice] = useState("");
   const router = useRouter();
@@ -29,35 +30,46 @@ export default function ProductsPageContent() {
 
   useEffect(() => {
     let result = [...products];
-
-    // Search filter
-    if (search.trim()) {
-      result = result.filter((product) =>
-        product.title.toLowerCase().includes(search.toLowerCase()),
-      );
+    
+    if (debouncedSearch.trim()) {
+        result = result.filter((product) =>
+        product.title
+            .toLowerCase()
+            .includes(debouncedSearch.toLowerCase()),
+        );
     }
-
-    // Category filter
+    
     if (category !== "all") {
-      result = result.filter((product) => product.category.name === category);
+        result = result.filter(
+        (product) => product.category.name === category,
+        );
     }
-
-    // Price filter
+    
     if (maxPrice) {
-      result = result.filter((product) => product.price <= Number(maxPrice));
+        result = result.filter(
+        (product) => product.price <= Number(maxPrice),
+        );
     }
 
     setFilteredProducts(result);
-
-    // Reset pagination after filtering
+    
     setCurrentPage(1);
-  }, [search, category, maxPrice, products]);
+
+    }, [debouncedSearch, category, maxPrice, products]);
 
   useEffect(() => {
     const urlCategory = searchParams.get("category") || "all";
 
     setCategory(urlCategory);
   }, [searchParams]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
 
   const categories = [
     "all",
