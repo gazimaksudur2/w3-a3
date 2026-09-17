@@ -1,367 +1,266 @@
-# FastBuy - Modern E-commerce Platform
+# FastBuy
 
-## Project Overview
+FastBuy is a responsive e-commerce frontend built with Next.js App Router. It
+lets shoppers discover products and categories, view product details, manage a
+cart, sign in or create an account, complete a checkout flow, and view a
+locally generated invoice.
 
-FastBuy is a modern e-commerce web application designed to provide users with a smooth online shopping experience. The platform allows users to browse products, explore categories, manage shopping carts, authenticate accounts, complete checkout processes, and generate invoices.
+## Features
 
-The main goal of this project was to build a scalable front-end architecture using modern web technologies while focusing on user experience, performance, maintainability, and clean component organization.
+- Product catalogue with search, category, price, and pagination controls
+- Category discovery section on the home page
+- Product detail pages with image galleries and related products
+- Add to cart, quantity controls, removal, and cart totals
+- Buy Now flow with authentication redirect support
+- Login, signup, session restoration, logout, and profile display
+- Checkout form validation with order summary and a $10 delivery fee
+- Cash-on-delivery invoice view
+- FAQ accordion and contact form feedback
+- Newsletter signup feedback in the home page CTA
+- Global success and error notifications with `react-hot-toast`
+- Responsive layout and light/dark theme support
+- Next.js image handling for remote product and category images
 
-### Core Features
+## Technology Stack
 
-* Product browsing and category-based exploration
-* Product detail pages with image galleries
-* Shopping cart management
-* Buy Now flow
-* User authentication and profile management
-* Checkout form validation
-* Invoice generation
-* Responsive UI design
-* Dark/light theme support
-* Optimized image handling
+- Next.js `16.3.5` with the App Router
+- React `19.2.8`
+- TypeScript
+- Tailwind CSS `4`
+- React Hook Form for form validation
+- React Context API for authentication and cart state
+- `lucide-react` for interface icons
+- `react-hot-toast` for user feedback
+- External REST API for products, categories, and authentication
 
----
+## Getting Started
 
-# Technology Stack
+### Requirements
 
-## Frontend
+- Node.js 20 or newer is recommended
+- npm
 
-* **Next.js (App Router)**
-* **React**
-* **TypeScript**
-* **Tailwind CSS**
-* **React Hook Form**
-* **Lucide React Icons**
+### Install dependencies
 
-## State Management
-
-* React Context API
-
-Implemented contexts:
-
-* `AuthContext` → manages authentication state
-* `CartContext` → manages shopping cart state
-
-## External Services
-
-* Third-party authentication API
-* Product/category API integration
-
----
-
-# Architecture Explanation
-
-The project follows a component-based architecture using the Next.js App Router structure.
-
-```
-app/
-│
-├── components/
-│   ├── Header
-│   ├── Footer
-│   ├── Product Components
-│   └── Checkout Components
-│
-├── context/
-│   ├── AuthContext
-│   └── CartContext
-│
-├── lib/
-│   ├── API handlers
-│   ├── Product services
-│   ├── Category services
-│   └── Order types
-│
-├── login/
-├── profile/
-├── cart/
-├── invoice/
-└── product pages
+```bash
+npm install
 ```
 
-## Application Flow
+### Configure environment variables
 
-### Authentication Flow
+Create a `.env` file in the project root. Use `.env.example` as a template:
 
-1. User submits login credentials.
-2. Credentials are sent through the authentication service.
-3. Authentication state is stored globally using `AuthContext`.
-4. Protected routes verify the session before rendering.
-
-### Shopping Flow
-
-1. User browses products.
-2. Products are added to the cart.
-3. Cart state is maintained through `CartContext`.
-4. User proceeds to checkout.
-5. Order information is generated and displayed through the invoice page.
-
----
-
-# Rendering Strategy Decisions
-
-## Server Components by Default
-
-The project uses Next.js App Router principles where components are server-rendered by default.
-
-Benefits:
-
-* Reduced client-side JavaScript
-* Improved initial page loading
-* Better SEO performance
-* Faster rendering for static content
-
-## Client Components Where Required
-
-Client rendering is used only where interactivity is necessary.
-
-Examples:
-
-* Cart updates
-* Login forms
-* Checkout interactions
-* Local storage operations
-
-This hybrid approach provides a balance between performance and user experience.
-
----
-
-# Data Fetching Strategy
-
-The project separates API communication into reusable service layers.
-
-Example structure:
-
-```
-lib/
- ├── api.ts
- ├── products.ts
- ├── categories.ts
- └── order.ts
+```env
+API_URL=***
+NEXT_PUBLIC_API_URL=***
 ```
 
-Benefits:
-
-* Cleaner components
-* Easier API replacement
-* Better maintainability
-* Separation of business logic from UI
-
----
-
-# Tradeoffs Made
-
-## 1. Context API Instead of External State Libraries
-
-### Decision
-
-Used React Context API for authentication and cart management.
-
-### Advantages
-
-* Simple implementation
-* No additional dependencies
-* Suitable for project size
-
-### Tradeoff
-
-For a very large application with complex state interactions, solutions like Redux Toolkit or Zustand could provide better scalability.
-
----
-
-## 2. Local Storage for Temporary Persistence
-
-### Decision
-
-Cart and order information are temporarily stored in browser local storage.
-
-### Advantages
-
-* Easy implementation
-* Data survives page refresh
-* No backend dependency
-
-### Tradeoff
-
-Local storage is device-specific and cannot synchronize data between multiple devices.
-
----
-
-## 3. Third-party Authentication Integration
-
-### Decision
-
-Used an external authentication API instead of building a custom authentication backend.
-
-### Advantages
-
-* Faster development
-* Secure authentication flow
-* Reduced backend complexity
-
-### Tradeoff
-
-The application depends on external API availability and limitations.
-
----
-
-# Performance Considerations
-
-## Image Optimization
-
-Next.js image optimization is used to improve loading performance.
-
-Benefits:
-
-* Automatic image resizing
-* Better loading efficiency
-* Reduced bandwidth usage
-
-## Component Optimization
-
-The project follows:
-
-* Component reuse
-* Separation of concerns
-* Minimal client-side rendering
-
-## Efficient Data Fetching
-
-API calls are separated from UI components to improve maintainability and reduce unnecessary requests.
-
-## Lazy Loading Strategy
-
-Interactive components are loaded only when required to avoid unnecessary JavaScript execution.
-
----
-
-# Challenges Faced
-
-## 1. Cart Management Challenge
-
-Managing cart state was one of the major challenges because the cart needed to support:
-
-* Adding products
-* Increasing/decreasing quantities
-* Removing products
-* Calculating totals
-* Handling Buy Now flow separately from normal cart checkout
-
-Another challenge was maintaining cart data during authentication redirects. Temporary local storage handling was required to preserve pending purchase information before login completion.
-
-### Solution
-
-Implemented a centralized `CartContext` to manage:
-
-* Cart items
-* Quantity updates
-* Cart calculations
-* Cart clearing after successful checkout
-
----
-
-## 2. Third-party Authentication API Integration
-
-Integrating the authentication API required handling:
-
-* Login requests
-* User sessions
-* Token management
-* Authentication failures
-* Protected routes
-
-Challenges included:
-
-* Managing asynchronous authentication states
-* Keeping users authenticated across navigation
-* Handling invalid credentials gracefully
-
-### Solution
-
-Created a dedicated authentication layer responsible for:
-
-* Login
-* Signup
-* Session checking
-* Logout functionality
-
-This kept authentication logic separate from UI components.
-
----
-
-# Future Improvements
-
-## 1. Real Backend API Integration
-
-Currently, the project focuses on front-end architecture with API integration. Future development will include a complete backend system.
-
-Planned improvements:
-
-* Real product management API
-* Inventory management
-* Order processing API
-* Payment gateway integration
-
----
-
-## 2. Database Integration
-
-A database layer can be introduced to permanently store:
-
-* User accounts
-* Product information
-* Shopping carts
-* Orders
-* Payment records
-* Customer history
-
-Possible technologies:
-
-* PostgreSQL
-* MySQL
-* MongoDB
-* Supabase
-
----
-
-## 3. Order History Management
-
-Future versions will allow users to:
-
-* View previous orders
-* Track order status
-* Download invoices
-* Cancel or modify orders
-
----
-
-## 4. Admin Dashboard
-
-A complete administration panel can be added for:
-
-* Product management
-* Inventory tracking
-* User management
-* Sales analytics
-* Order management
-
----
-
-## 5. Advanced Features
-
-Possible future enhancements:
-
-* Recommendation system
-* Wishlist functionality
-* Product reviews and ratings
-* Real-time order tracking
-* Email notifications
-* Multiple payment methods
-* Progressive Web App support
-
----
-
-# Conclusion
-
-FastBuy demonstrates a modern approach to building an e-commerce platform using Next.js and React. The project focuses on clean architecture, reusable components, efficient rendering strategies, and practical state management.
-
-Although the current implementation uses temporary storage solutions for some features, the architecture is designed to support future expansion into a complete production-level e-commerce system with backend services, databases, and advanced business features.
+`API_URL` is used by server-side category and authentication requests.
+`NEXT_PUBLIC_API_URL` is used by the client-side product hook. Both variables
+are required for the complete application flow.
+
+### Run the development server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in a browser.
+
+### Production commands
+
+```bash
+npm run build
+npm start
+```
+
+The project also includes:
+
+```bash
+npm run lint
+```
+
+## Project Structure
+
+```text
+.
+├── app/
+│   ├── about/page.tsx                 About page
+│   ├── cart/                          Cart page and client content
+│   ├── checkout/                      Checkout page and client content
+│   ├── components/                    Shared UI and commerce components
+│   ├── contact/page.tsx               Contact form
+│   ├── context/                       AuthContext and CartContext
+│   ├── hooks/useProducts.ts           Client product loading hook
+│   ├── invoice/[id]/page.tsx          Local invoice view
+│   ├── lib/                           API clients, domain types, auth actions
+│   ├── login/                          Login route and form
+│   ├── products/                       Catalogue and product detail routes
+│   ├── profile/page.tsx               Authenticated profile page
+│   ├── sections/                      Home page sections
+│   ├── signup/                         Signup route and form
+│   ├── error.tsx                       App-level retry UI
+│   ├── loading.tsx                     Loading skeleton UI
+│   ├── not-found.tsx                   Not-found UI
+│   ├── layout.tsx                      Root providers, header, footer, toaster
+│   ├── page.tsx                        Home page composition
+│   └── globals.css                     Global styles and theme variables
+├── public/                             Static images and brand assets
+├── next.config.ts                      Next.js output and image configuration
+├── postcss.config.mjs                  Tailwind/PostCSS configuration
+├── eslint.config.mjs                  ESLint configuration
+├── tsconfig.json                       TypeScript configuration
+├── .env.example                        Environment variable template
+└── package.json                        Scripts and dependencies
+```
+
+### Shared components
+
+The `app/components` directory contains the reusable interface pieces used by
+multiple routes:
+
+- `Header` and `Footer` provide site-wide navigation and account/cart access.
+- `ProductCard`, `ProductGallery`, `ProductInfo`, and `RelatedProducts` build
+  the product browsing experience.
+- `ProductActions` handles Add to Cart and Buy Now behavior.
+- `CheckoutForm` validates customer information and creates the local order.
+- `OrderSuccessModal` appears after a successful checkout.
+
+### Home sections
+
+The home page in `app/page.tsx` composes `HeroSection`,
+`CategoriesSections`, `FeaturedProducts`, `FAQ`, and `CTA`. The FAQ accordion
+and newsletter CTA are client components because they contain interactive form
+and state behavior.
+
+## Routes
+
+| Route | Purpose |
+| --- | --- |
+| `/` | Home page with hero, categories, featured products, FAQ, and CTA |
+| `/products` | Product catalogue with filters and pagination |
+| `/products/[id]` | Product details, gallery, actions, and related products |
+| `/cart` | Cart contents, quantities, totals, and checkout link |
+| `/checkout` | Cart checkout |
+| `/checkout?mode=buy` | Buy Now checkout for one product |
+| `/login` | Login form |
+| `/signup` | Account creation form |
+| `/profile` | Authenticated user profile; redirects to `/login` without a session |
+| `/invoice/[id]` | Invoice generated from the latest local order |
+| `/about` | About page |
+| `/contact` | Contact information and message form |
+
+## Architecture
+
+### App Router and rendering
+
+Next.js server components are used by default. Server components handle page
+composition and server-side data access where possible. Components become
+client components only when they need browser APIs, state, event handlers, or
+client hooks.
+
+Client components include:
+
+- Authentication and cart providers
+- Login, signup, product, cart, checkout, and profile interactions
+- Theme switching and mobile/header controls
+- FAQ accordion, contact form, and newsletter CTA
+- Product loading through `useProducts`
+
+The root layout wraps the application with `AuthProvider` and `CartProvider`,
+then mounts one global `Toaster` so notifications work consistently across
+routes.
+
+### Data access
+
+Data access is kept in `app/lib`:
+
+- `api.ts` builds URLs from environment variables.
+- `products.ts` fetches products from the configured `products` endpoint.
+- `categories.ts` fetches categories with a one-hour Next.js revalidation
+  period and returns an empty list when the request fails.
+- `server-auth.ts` contains server actions for login, signup, session lookup,
+  token refresh, and logout.
+- `order.ts` defines the structure of locally generated orders and invoices.
+
+Product data is loaded in the client through `useProducts`. Category data is
+loaded by the server-rendered home page section.
+
+### Authentication
+
+Authentication requests are made through server actions. Access and refresh
+tokens are stored in HTTP-only cookies named `mindful_access_token` and
+`mindful_refresh_token`. The session provider checks the current session when
+the application loads. The profile page performs a server-side session check
+and redirects unauthenticated users to `/login`.
+
+When a user selects Buy Now while signed out, the selected product is stored
+temporarily, the user is sent to login with a checkout redirect, and the item
+is restored after successful login or signup.
+
+### Cart and checkout
+
+`CartContext` owns cart items, quantities, removal, clearing, and total
+calculation. The cart is persisted in browser local storage under
+`fastbuy-cart`.
+
+Checkout is a frontend flow. On submit, `CheckoutForm` creates an invoice ID,
+calculates the subtotal plus the fixed delivery fee, stores the order under
+`fastbuy-order`, and clears either the cart or the Buy Now item. The invoice
+page reads that order from local storage and displays it as cash on delivery.
+
+The following local-storage keys are used:
+
+| Key | Purpose |
+| --- | --- |
+| `fastbuy-cart` | Persistent cart contents |
+| `fastbuy-buy-now` | Product selected for the Buy Now checkout |
+| `fastbuy-pending-buy-now` | Buy Now product held during login/signup redirect |
+| `fastbuy-order` | Most recently generated local order/invoice |
+| `theme` | Selected `light` or `dark` theme |
+
+### Notifications and validation
+
+`react-hot-toast` is mounted globally in `app/layout.tsx`. Toasts are shown for
+cart changes, authentication results, logout results, product-loading errors,
+contact submission, and newsletter signup. React Hook Form provides inline
+field validation for login, signup, and checkout forms; browser validation is
+used for the contact and newsletter forms.
+
+## Design and performance
+
+- Responsive Tailwind layouts are used across desktop and mobile breakpoints.
+- The header supports a persistent light/dark theme preference.
+- `next/image` is used for product, hero, and brand images where applicable.
+- Product/category API logic is separated from presentation components.
+- Server-rendered sections reduce unnecessary client-side JavaScript.
+- Loading, error, and not-found UI are provided at the app level.
+- The production configuration uses Next.js standalone output.
+
+## Current limitations
+
+This is currently a frontend-focused application with temporary browser-side
+order persistence:
+
+- Orders are not sent to a backend and are only available in the current
+  browser through local storage.
+- There is no payment gateway; checkout displays Cash On Delivery.
+- The contact form and newsletter form provide local success feedback but do
+  not submit to a persistence or email service.
+- Cart contents are device-specific and are not synchronized with a user
+  account.
+- Product and category availability depends on the configured external API.
+- The latest local order overwrites the previous local invoice record.
+
+## Future improvements
+
+- Add a backend for products, inventory, orders, and customer records.
+- Persist cart and order history per authenticated user.
+- Add payment processing and order status tracking.
+- Connect contact and newsletter forms to email or CRM services.
+- Add product reviews, wishlists, recommendations, and admin tools.
+- Add automated tests for authentication, cart behavior, checkout, and routes.
+
+## License
+
+This project is intended for educational and demonstration purposes.
