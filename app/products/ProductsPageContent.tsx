@@ -18,6 +18,7 @@ export default function ProductsPageContent() {
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [category, setCategory] = useState(initialCategory);
   const [maxPrice, setMaxPrice] = useState("");
+  const [sort, setSort] = useState("default");
   const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,24 +32,49 @@ export default function ProductsPageContent() {
   useEffect(() => {
     let result = [...products];
 
+    // Search filter
     if (debouncedSearch.trim()) {
       result = result.filter((product) =>
         product.title.toLowerCase().includes(debouncedSearch.toLowerCase()),
       );
     }
 
+    // Category filter
     if (category !== "all") {
       result = result.filter((product) => product.category.name === category);
     }
 
+    // Price filter
     if (maxPrice) {
       result = result.filter((product) => product.price <= Number(maxPrice));
+    }
+
+    // Sorting
+    switch (sort) {
+      case "price-low":
+        result.sort((a, b) => a.price - b.price);
+        break;
+
+      case "price-high":
+        result.sort((a, b) => b.price - a.price);
+        break;
+
+      case "name-a-z":
+        result.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+
+      case "name-z-a":
+        result.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+
+      default:
+        break;
     }
 
     setFilteredProducts(result);
 
     setCurrentPage(1);
-  }, [debouncedSearch, category, maxPrice, products]);
+  }, [debouncedSearch, category, maxPrice, sort, products]);
 
   useEffect(() => {
     const urlCategory = searchParams.get("category") || "all";
@@ -161,7 +187,7 @@ export default function ProductsPageContent() {
         border-card
         bg-surface
         dark:bg-surface
-        md:grid-cols-3
+        md:grid-cols-4
       "
       >
         <input
@@ -271,6 +297,45 @@ export default function ProductsPageContent() {
             dark:text-white
           "
         />
+        <select
+  value={sort}
+  onChange={(e) => setSort(e.target.value)}
+  className="
+    rounded-lg
+    border
+    px-4
+    py-2
+    border-card
+    bg-background
+    text-navy
+    focus:outline-none
+    focus:ring-2
+    focus:ring-brand
+    dark:bg-gray-800
+    dark:text-white
+  "
+>
+  <option value="default">
+    Sort by
+  </option>
+
+  <option value="price-low">
+    Price: Low to High
+  </option>
+
+  <option value="price-high">
+    Price: High to Low
+  </option>
+
+  <option value="name-a-z">
+    Name: A to Z
+  </option>
+
+  <option value="name-z-a">
+    Name: Z to A
+  </option>
+
+</select>
       </div>
 
       {/* PRODUCT GRID */}
