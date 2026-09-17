@@ -1,5 +1,3 @@
-"use client";
-
 import React from 'react'
 import CartPageContent from './CartPageContent'
 import { Suspense } from 'react'

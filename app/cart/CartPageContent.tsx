@@ -20,7 +20,7 @@ export default function CartPageContent() {
 
   useEffect(() => {
     if (searchParams.get("mode") === "buy") {
-      const storedItem = localStorage.getItem("fastbuy-buy-now");
+      const storedItem = window.localStorage.getItem("fastbuy-buy-now");
 
       if (storedItem) {
         setBuyNowItem(JSON.parse(storedItem));
