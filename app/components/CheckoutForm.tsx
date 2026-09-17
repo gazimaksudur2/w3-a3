@@ -44,8 +44,10 @@ export default function CheckoutForm({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<CheckoutFormData>({
+    mode: "onBlur",
+
     defaultValues: {
       name: user?.name || "",
       email: user?.email || "",
@@ -108,6 +110,16 @@ export default function CheckoutForm({
         <input
           {...register("name", {
             required: "Name is required",
+
+            minLength: {
+              value: 3,
+              message: "Name must be at least 3 characters",
+            },
+
+            pattern: {
+              value: /^[A-Za-z\s]+$/,
+              message: "Name can contain only letters",
+            },
           })}
           className="
             w-full
@@ -142,6 +154,11 @@ export default function CheckoutForm({
           type="email"
           {...register("email", {
             required: "Email is required",
+
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "Enter a valid email address",
+            },
           })}
           className="
             w-full
@@ -176,6 +193,11 @@ export default function CheckoutForm({
           rows={4}
           {...register("address", {
             required: "Address is required",
+
+            minLength: {
+              value: 10,
+              message: "Address must be at least 10 characters",
+            },
           })}
           className="
             w-full
@@ -209,6 +231,11 @@ export default function CheckoutForm({
         <input
           {...register("city", {
             required: "City is required",
+
+            pattern: {
+              value: /^[A-Za-z\s]+$/,
+              message: "City can contain only letters",
+            },
           })}
           className="
             w-full
@@ -241,8 +268,15 @@ export default function CheckoutForm({
 
         <input
           type="tel"
+          inputMode="numeric"
+          placeholder="017XXXXXXXX"
           {...register("phone", {
             required: "Phone number is required",
+
+            pattern: {
+              value: /^[+]?[0-9]{10,15}$/,
+              message: "Enter a valid phone number",
+            },
           })}
           className="
             w-full
@@ -276,6 +310,11 @@ export default function CheckoutForm({
         <input
           {...register("postalCode", {
             required: "Postal code is required",
+
+            pattern: {
+              value: /^[0-9]{4,6}$/,
+              message: "Enter a valid postal code",
+            },
           })}
           className="
             w-full
@@ -321,6 +360,7 @@ export default function CheckoutForm({
 
       <button
         type="submit"
+        disabled={!isValid}
         className="
           w-full
           rounded-lg
