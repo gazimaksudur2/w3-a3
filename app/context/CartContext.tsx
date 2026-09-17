@@ -7,6 +7,7 @@ import {
   useState,
   ReactNode,
 } from "react";
+import toast from "react-hot-toast";
 
 
 export interface CartItem {
@@ -78,9 +79,15 @@ useEffect(() => {
   */
 
   const addToCart = (item: CartItem) => {
-    setCartItems((previous) => {
-      const existingItem = previous.find((product) => product.id === item.id);
+    const existingItem = cartItems.find((product) => product.id === item.id);
 
+    toast.success(
+      existingItem
+        ? `${item.title} quantity updated.`
+        : `${item.title} added to cart.`,
+    );
+
+    setCartItems((previous) => {
       if (existingItem) {
         return previous.map((product) =>
           product.id === item.id
@@ -101,6 +108,12 @@ useEffect(() => {
   */
 
   const removeFromCart = (id: number) => {
+    const removedItem = cartItems.find((item) => item.id === id);
+
+    if (removedItem) {
+      toast.success(`${removedItem.title} removed from cart.`);
+    }
+
     setCartItems((previous) => previous.filter((item) => item.id !== id));
   };
   /*

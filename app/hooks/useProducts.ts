@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getProducts, type Product } from "../lib/products";
+import toast from "react-hot-toast";
 
 export function useProducts() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -7,14 +8,22 @@ export function useProducts() {
 
   useEffect(() => {
     async function fetchProducts() {
-      const data = await getProducts({
-        offset: 0,
-        limit: 50,
-      });
+      try {
+        const data = await getProducts({
+          offset: 0,
+          limit: 50,
+        });
 
-      setProducts(data);
-
-      setLoading(false);
+        setProducts(data);
+      } catch (error) {
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : "Unable to load products.",
+        );
+      } finally {
+        setLoading(false);
+      }
     }
 
     fetchProducts();

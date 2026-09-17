@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { LogOut, Moon, ShoppingCart, Sun, User } from "lucide-react";
+import toast from "react-hot-toast";
 
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
@@ -267,9 +268,13 @@ export default function Header() {
 
                         <button
                           type="button"
-                          onClick={() => {
-                            logout();
-
+                          onClick={async () => {
+                            try {
+                              await logout();
+                              toast.success("Signed out successfully.");
+                            } catch {
+                              toast.error("Unable to sign out.");
+                            }
                             setIsProfileOpen(false);
                           }}
                           className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-950"

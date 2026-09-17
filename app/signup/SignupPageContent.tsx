@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 type SignupForm = {
   name: string;
@@ -16,7 +16,6 @@ type SignupForm = {
 export default function SignupPageContent() {
   const { signup } = useAuth();
   const router = useRouter();
-  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -26,10 +25,9 @@ export default function SignupPageContent() {
   const redirect = searchParams.get("redirect") || "/";
 
   const onSubmit: SubmitHandler<SignupForm> = async (values) => {
-    setError("");
-
     try {
       await signup(values);
+      toast.success("Account created successfully.");
 
       const pendingBuyNow = localStorage.getItem("fastbuy-pending-buy-now");
 
@@ -41,7 +39,7 @@ export default function SignupPageContent() {
 
       router.push(redirect);
     } catch (requestError) {
-      setError(
+      toast.error(
         requestError instanceof Error
           ? requestError.message
           : "Unable to create account.",
@@ -129,11 +127,6 @@ export default function SignupPageContent() {
             </span>
           )}
         </label>
-        {error && (
-          <p className="text-sm text-red-600" role="alert">
-            {error}
-          </p>
-        )}
         <button
           disabled={isSubmitting}
           type="submit"

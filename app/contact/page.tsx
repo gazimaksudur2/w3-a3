@@ -1,4 +1,15 @@
+"use client";
+
+import type { FormEvent } from "react";
+import toast from "react-hot-toast";
+
 export default function ContactPage() {
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    event.currentTarget.reset();
+    toast.success("Your message has been sent.");
+  };
 
   return (
 
@@ -85,7 +96,7 @@ export default function ContactPage() {
 
         {/* Contact Form */}
 
-        <form className="
+        <form onSubmit={handleSubmit} className="
           rounded-xl border p-8
           border-gray-200
           bg-card
@@ -97,6 +108,7 @@ export default function ContactPage() {
           <input
             type="text"
             placeholder="Your name"
+            required
             className="
               w-full rounded-lg border px-4 py-3
               border-gray-300
@@ -112,6 +124,7 @@ export default function ContactPage() {
           <input
             type="email"
             placeholder="Your email"
+            required
             className="
               w-full rounded-lg border px-4 py-3
               border-gray-300
@@ -127,6 +140,7 @@ export default function ContactPage() {
           <textarea
             rows={5}
             placeholder="Your message"
+            required
             className="
               w-full rounded-lg border px-4 py-3
               border-gray-300

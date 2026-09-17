@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 type LoginForm = {
   email: string;
@@ -15,7 +15,6 @@ type LoginForm = {
 export default function LoginPageContent() {
   const { login } = useAuth();
   const router = useRouter();
-  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -25,10 +24,9 @@ export default function LoginPageContent() {
   const redirect = searchParams.get("redirect") || "/";
 
   const onSubmit: SubmitHandler<LoginForm> = async (values) => {
-    setError("");
-
     try {
       await login(values);
+      toast.success("Signed in successfully.");
 
       const pendingBuyNow = window.localStorage.getItem("fastbuy-pending-buy-now");
 
@@ -40,7 +38,7 @@ export default function LoginPageContent() {
 
       router.push(redirect);
     } catch (requestError) {
-      setError(
+      toast.error(
         requestError instanceof Error
           ? requestError.message
           : "Unable to sign in.",
@@ -105,11 +103,6 @@ export default function LoginPageContent() {
             </span>
           )}
         </label>
-        {error && (
-          <p className="text-sm text-red-600" role="alert">
-            {error}
-          </p>
-        )}
         <button
           disabled={isSubmitting}
           type="submit"
