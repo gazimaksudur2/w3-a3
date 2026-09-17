@@ -83,7 +83,7 @@ export async function signupAction(details: { name: string; email: string; passw
     body: JSON.stringify({ email: details.email }),
   });
 
-  if (!availability.isAvailable) {
+  if (availability.isAvailable) {
     throw new Error("An account with this email already exists.");
   }
 

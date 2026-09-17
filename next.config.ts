@@ -24,7 +24,6 @@ const nextConfig: NextConfig = {
         hostname: "placehold.co",
       },
     ],
-    unoptimized: true,
   },
 };
 

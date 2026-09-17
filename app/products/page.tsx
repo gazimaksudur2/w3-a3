@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import type { Product } from "../lib/products";
 import { useProducts } from "../hooks/useProducts";
+import ProductCard from "../components/ProductCard";
 
 export default function ProductsPage() {
   const { products, loading } = useProducts();
@@ -173,56 +174,7 @@ export default function ProductsPage() {
       "
       >
         {currentProducts.map((product) => (
-          <div
-            key={product.id}
-            className="
-              rounded-xl border p-4 shadow-sm
-              border-card
-              bg-card
-              transition
-              hover:shadow-md
-              dark:bg-surface
-            "
-          >
-            <div className="relative mb-4 h-56">
-              <Image
-                src={product.images[0]}
-                alt={product.title}
-                fill
-                className="
-                  rounded-lg object-cover
-                "
-              />
-            </div>
-
-            <h2
-              className="
-              font-semibold
-              text-navy
-              dark:text-white
-            "
-            >
-              {product.title}
-            </h2>
-
-            <p
-              className="
-              mt-2
-              font-bold text-brand
-            "
-            >
-              ${product.price}
-            </p>
-
-            <span
-              className="
-              text-sm
-              text-text-secondary
-            "
-            >
-              {product.category.name}
-            </span>
-          </div>
+          <ProductCard  product={product} key={product.id} />
         ))}
       </div>
 

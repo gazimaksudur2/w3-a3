@@ -279,8 +279,7 @@ function ProductCard({
     "https://placehold.co/600x600?text=Product";
 
   return (
-    <Link
-      href={`/products/${product.slug}`}
+    <div
       className="group block min-w-0"
     >
       {/* Product image */}
@@ -309,7 +308,8 @@ function ProductCard({
         )}
 
         {/* Hover view button */}
-        <div className="absolute inset-x-3 bottom-3 translate-y-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+        <Link href={`/products/${product.id}`}>
+          <div className="absolute inset-x-3 bottom-3 translate-y-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
           <div className="flex items-center justify-center gap-2 rounded-lg bg-white/95 px-3 py-2.5 text-xs font-semibold text-gray-900 shadow-md backdrop-blur-md dark:bg-gray-900/95 dark:text-white">
             View product
 
@@ -329,6 +329,7 @@ function ProductCard({
             </svg>
           </div>
         </div>
+        </Link>
       </div>
 
       {/* Product information */}
@@ -364,7 +365,7 @@ function ProductCard({
           </span>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 
