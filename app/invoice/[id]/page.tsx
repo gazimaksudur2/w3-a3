@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 
 import type { Order } from "../../lib/order";
 
@@ -71,7 +72,7 @@ export default function InvoicePage() {
               text-3xl
               font-bold
               text-gray-900
-              dark:text-white
+              dark:text-white 
             "
             >
               FastBuy Invoice
@@ -163,35 +164,105 @@ export default function InvoicePage() {
               <div
                 key={item.id}
                 className="
-                  flex
-                  justify-between
-                  rounded-lg
-                  bg-gray-50
-                  p-4
-                  dark:bg-gray-800
-                "
+      flex
+      gap-4
+      rounded-lg
+      bg-gray-50
+      p-4
+      dark:bg-gray-800
+    "
               >
-                <div>
-                  <p className="font-medium">{item.title}</p>
-
-                  <p
+                <div
+                  className="
+        relative
+        h-20
+        w-20
+        shrink-0
+        overflow-hidden
+        rounded-lg
+        bg-gray-200
+        dark:bg-gray-700
+      "
+                >
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
                     className="
-                    text-sm
-                    text-gray-500
-                  "
-                  >
-                    Quantity:
-                    {item.quantity}
-                  </p>
+          object-cover
+        "
+                  />
                 </div>
 
-                <p
+                <div
                   className="
-                  font-semibold
-                "
+        flex
+        flex-1
+        justify-between
+        gap-4
+      "
                 >
-                  ${item.price * item.quantity}
-                </p>
+                  <div>
+                    <p
+                      className="
+            font-medium
+            text-gray-900
+            dark:text-white
+          "
+                    >
+                      {item.title}
+                    </p>
+
+                    <p
+                      className="
+            mt-1
+            text-sm
+            text-gray-500
+            dark:text-gray-400
+          "
+                    >
+                      Quantity: {item.quantity}
+                    </p>
+
+                    <p
+                      className="
+            mt-1
+            text-sm
+            text-gray-500
+            dark:text-gray-400
+          "
+                    >
+                      ${item.price} each
+                    </p>
+                  </div>
+
+                  <div
+                    className="
+          text-right
+        "
+                  >
+                    <p
+                      className="
+            text-lg
+            font-bold
+            text-gray-900
+            dark:text-white
+          "
+                    >
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </p>
+
+                    <p
+                      className="
+            text-sm
+            text-gray-500
+            dark:text-gray-400
+          "
+                    >
+                      Subtotal
+                    </p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

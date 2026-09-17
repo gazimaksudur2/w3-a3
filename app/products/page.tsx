@@ -5,15 +5,19 @@ import Image from "next/image";
 import type { Product } from "../lib/products";
 import { useProducts } from "../hooks/useProducts";
 import ProductCard from "../components/ProductCard";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ProductsPage() {
   const { products, loading } = useProducts();
+  const searchParams = useSearchParams();
+  const initialCategory = searchParams.get("category") || "all";
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("all");
+  const [category, setCategory] = useState(initialCategory);
   const [maxPrice, setMaxPrice] = useState("");
+  const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -48,6 +52,12 @@ export default function ProductsPage() {
     // Reset pagination after filtering
     setCurrentPage(1);
   }, [search, category, maxPrice, products]);
+
+  useEffect(() => {
+    const urlCategory = searchParams.get("category") || "all";
+
+    setCategory(urlCategory);
+  }, [searchParams]);
 
   const categories = [
     "all",
@@ -124,25 +134,75 @@ export default function ProductsPage() {
           "
         />
 
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="
-            rounded-lg border px-4 py-2
-            border-card
-            bg-background
-            text-navy
-            focus:outline-none
-            focus:ring-2
-            focus:ring-brand
-            dark:bg-gray-800
-            dark:text-white
-          "
-        >
-          {categories.map((item) => (
-            <option key={item}>{item}</option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="
+      w-full
+      rounded-lg
+      border
+      border-card
+      bg-background
+      px-4
+      py-2
+      text-navy
+      focus:outline-none
+      focus:ring-2
+      focus:ring-brand
+      dark:bg-gray-800
+      dark:text-white
+    "
+          >
+            {categories.map((item) => (
+              <option key={item}>{item}</option>
+            ))}
+          </select>
+
+          {category !== "all" && (
+            <button
+              type="button"
+              onClick={() => {
+                setCategory("all");
+                router.push("/products");
+              }}
+              className="
+        absolute
+        right-1
+        top-1/2
+        -translate-y-1/2
+
+        rounded-md
+        border
+        border-gray-300
+
+        bg-white
+        px-2
+        py-1
+
+        text-xs
+        font-medium
+        text-gray-600
+
+        transition
+
+        hover:border-red-400
+        hover:bg-red-50
+        hover:text-red-500
+
+        dark:border-gray-600
+        dark:bg-gray-800
+        dark:text-gray-300
+
+        dark:hover:border-red-500
+        dark:hover:bg-red-900/30
+        dark:hover:text-red-400
+      "
+            >
+              Clear
+            </button>
+          )}
+        </div>
 
         <input
           type="number"
@@ -174,7 +234,7 @@ export default function ProductsPage() {
       "
       >
         {currentProducts.map((product) => (
-          <ProductCard  product={product} key={product.id} />
+          <ProductCard product={product} key={product.id} />
         ))}
       </div>
 

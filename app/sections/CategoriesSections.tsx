@@ -44,7 +44,7 @@ export default async function CategoriesSections() {
             {categories.map((category) => (
               <Link
                 key={category.id}
-                href={`/categories/${category.slug}`}
+                href={`/products?category=${encodeURIComponent(category.name)}`}
                 className="group relative block overflow-hidden rounded-xl bg-gray-100 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2 dark:bg-gray-800 dark:focus-visible:ring-white dark:focus-visible:ring-offset-gray-900"
               >
                 {/* Category Image */}
