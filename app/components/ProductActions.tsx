@@ -35,29 +35,45 @@ export default function ProductActions({ product }: ProductActionsProps) {
   }
 
   function handleBuyNow() {
-    if (!user) {
-      router.push("/login");
-      return;
-    }
+  const buyNowProduct = {
+    id: product.id,
+    title: product.title,
+    price: product.price,
+    image: product.image,
+    quantity: 1,
+  };
+
+
+  if (!user) {
 
     localStorage.setItem(
-      "fastbuy-buy-now",
-
-      JSON.stringify({
-        id: product.id,
-
-        title: product.title,
-
-        price: product.price,
-
-        image: product.image,
-
-        quantity: 1,
-      }),
+      "fastbuy-pending-buy-now",
+      JSON.stringify(buyNowProduct),
     );
 
-    router.push(`/checkout?mode=buy`);
+
+    const redirectUrl = encodeURIComponent(
+      "/checkout?mode=buy"
+    );
+
+
+    router.push(
+      `/login?redirect=${redirectUrl}`
+    );
+
+
+    return;
   }
+
+
+  localStorage.setItem(
+    "fastbuy-buy-now",
+    JSON.stringify(buyNowProduct),
+  );
+
+
+  router.push("/checkout?mode=buy");
+}
 
   return (
     <div

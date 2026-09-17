@@ -3,31 +3,44 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
-import { useSearchParams } from "next/navigation";
+
+interface CheckoutItem {
+  id: number;
+  title: string;
+  price: number;
+  image: string;
+  quantity: number;
+}
 
 interface CheckoutFormData {
   name: string;
-
   email: string;
-
   address: string;
-
   city: string;
-
   phone: string;
-
   postalCode: string;
 }
 
 interface CheckoutFormProps {
+  checkoutItems: CheckoutItem[];
+
+  subtotal: number;
+
+  mode: "buy" | "cart";
+
   onSuccess: (invoiceId: string) => void;
 }
 
-export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
+export default function CheckoutForm({
+  checkoutItems,
+  subtotal,
+  mode,
+  onSuccess,
+}: CheckoutFormProps) {
   const { user } = useAuth();
-  const { cartItems, cartTotal, clearCart } = useCart();
 
-  const searchParams = useSearchParams();
+  const { clearCart } = useCart();
+
   const {
     register,
     handleSubmit,
@@ -35,27 +48,12 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
   } = useForm<CheckoutFormData>({
     defaultValues: {
       name: user?.name || "",
-
       email: user?.email || "",
     },
   });
 
   const onSubmit = (data: CheckoutFormData) => {
     const invoiceId = "FB-" + Date.now();
-
-    const buyNowItem = localStorage.getItem("fastbuy-buy-now");
-
-    let orderItems = cartItems;
-
-    let subtotal = cartTotal;
-
-    if (searchParams.get("mode") === "buy" && buyNowItem) {
-      const item = JSON.parse(buyNowItem);
-
-      orderItems = [item];
-
-      subtotal = item.price * item.quantity;
-    }
 
     const deliveryFee = 10;
 
@@ -66,7 +64,7 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
 
       customer: data,
 
-      items: orderItems,
+      items: checkoutItems,
 
       subtotal,
 
@@ -75,13 +73,9 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
       total,
     };
 
-    localStorage.setItem(
-      "fastbuy-order",
+    localStorage.setItem("fastbuy-order", JSON.stringify(order));
 
-      JSON.stringify(order),
-    );
-
-    if (searchParams.get("mode") === "buy") {
+    if (mode === "buy") {
       localStorage.removeItem("fastbuy-buy-now");
     } else {
       clearCart();
@@ -106,7 +100,7 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
           block
           text-sm
           font-medium
-        "
+          "
         >
           Full Name
         </label>
@@ -128,19 +122,9 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
         />
 
         {errors.name && (
-          <p
-            className="
-            mt-1
-            text-sm
-            text-red-500
-          "
-          >
-            {errors.name.message}
-          </p>
+          <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
         )}
       </div>
-
-      {/* EMAIL */}
 
       <div>
         <label
@@ -149,7 +133,7 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
           block
           text-sm
           font-medium
-        "
+          "
         >
           Email
         </label>
@@ -172,19 +156,9 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
         />
 
         {errors.email && (
-          <p
-            className="
-            mt-1
-            text-sm
-            text-red-500
-          "
-          >
-            {errors.email.message}
-          </p>
+          <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
         )}
       </div>
-
-      {/* ADDRESS */}
 
       <div>
         <label
@@ -193,7 +167,7 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
           block
           text-sm
           font-medium
-        "
+          "
         >
           Full Address
         </label>
@@ -216,19 +190,9 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
         />
 
         {errors.address && (
-          <p
-            className="
-            mt-1
-            text-sm
-            text-red-500
-          "
-          >
-            {errors.address.message}
-          </p>
+          <p className="mt-1 text-sm text-red-500">{errors.address.message}</p>
         )}
       </div>
-
-      {/* CITY */}
 
       <div>
         <label
@@ -237,7 +201,7 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
           block
           text-sm
           font-medium
-        "
+          "
         >
           City
         </label>
@@ -259,19 +223,9 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
         />
 
         {errors.city && (
-          <p
-            className="
-            mt-1
-            text-sm
-            text-red-500
-          "
-          >
-            {errors.city.message}
-          </p>
+          <p className="mt-1 text-sm text-red-500">{errors.city.message}</p>
         )}
       </div>
-
-      {/* PHONE */}
 
       <div>
         <label
@@ -280,7 +234,7 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
           block
           text-sm
           font-medium
-        "
+          "
         >
           Phone Number
         </label>
@@ -303,19 +257,9 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
         />
 
         {errors.phone && (
-          <p
-            className="
-            mt-1
-            text-sm
-            text-red-500
-          "
-          >
-            {errors.phone.message}
-          </p>
+          <p className="mt-1 text-sm text-red-500">{errors.phone.message}</p>
         )}
       </div>
-
-      {/* POSTAL CODE */}
 
       <div>
         <label
@@ -324,7 +268,7 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
           block
           text-sm
           font-medium
-        "
+          "
         >
           Postal Code
         </label>
@@ -346,19 +290,11 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
         />
 
         {errors.postalCode && (
-          <p
-            className="
-            mt-1
-            text-sm
-            text-red-500
-          "
-          >
+          <p className="mt-1 text-sm text-red-500">
             {errors.postalCode.message}
           </p>
         )}
       </div>
-
-      {/* PAYMENT */}
 
       <div
         className="
@@ -366,15 +302,9 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
         border
         p-4
         dark:border-gray-700
-      "
-      >
-        <h3
-          className="
-          font-semibold
         "
-        >
-          Payment Method
-        </h3>
+      >
+        <h3 className="font-semibold">Payment Method</h3>
 
         <label
           className="
@@ -382,7 +312,7 @@ export default function CheckoutForm({ onSuccess }: CheckoutFormProps) {
           flex
           items-center
           gap-3
-        "
+          "
         >
           <input type="radio" checked readOnly />
           Cash On Delivery

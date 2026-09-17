@@ -3,10 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "../context/CartContext";
-
-
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function CartPage() {
+  const searchParams = useSearchParams();
+
+  const [buyNowItem, setBuyNowItem] = useState(null);
   const {
     cartItems,
     increaseQuantity,
@@ -15,11 +18,28 @@ export default function CartPage() {
     cartTotal,
   } = useCart();
 
-  const deliveryFee = cartItems.length > 0 ? 10 : 0;
+  useEffect(() => {
+    if (searchParams.get("mode") === "buy") {
+      const storedItem = localStorage.getItem("fastbuy-buy-now");
 
-  const grandTotal = cartTotal + deliveryFee;
+      if (storedItem) {
+        setBuyNowItem(JSON.parse(storedItem));
+      }
+    }
+  }, [searchParams]);
 
-  if (cartItems.length === 0) {
+  const checkoutItems =
+    searchParams.get("mode") === "buy" && buyNowItem ? [buyNowItem] : cartItems;
+  const subtotal = checkoutItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
+
+  const deliveryFee = checkoutItems.length > 0 ? 10 : 0;
+
+  const grandTotal = subtotal + deliveryFee;
+
+  if (checkoutItems.length === 0) {
     return (
       <main
         className="
@@ -131,61 +151,116 @@ export default function CartPage() {
 
               <div
                 className="
-                flex
-                flex-1
-                flex-col
-              "
+    flex
+    flex-1
+    flex-col
+  "
               >
-                <h2
+                <div
                   className="
-                  font-semibold
-                  text-gray-900
-                  dark:text-white
-                "
+      flex
+      justify-between
+      gap-4
+    "
                 >
-                  {item.title}
-                </h2>
+                  <div>
+                    <h2
+                      className="
+          font-semibold
+          text-gray-900
+          dark:text-white
+        "
+                    >
+                      {item.title}
+                    </h2>
 
-                <p
-                  className="
-                  mt-2
-                  text-brand
-                  font-bold
-                "
-                >
-                  ${item.price}
-                </p>
+                    <p
+                      className="
+          mt-2
+          font-bold
+          text-brand
+        "
+                    >
+                      ${item.price} each
+                    </p>
+                  </div>
+
+                  <div
+                    className="
+        text-right
+      "
+                  >
+                    <p
+                      className="
+          text-lg
+          font-bold
+          text-gray-900
+          dark:text-white
+        "
+                    >
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </p>
+
+                    <p
+                      className="
+          text-sm
+          text-gray-500
+          dark:text-gray-400
+        "
+                    >
+                      Subtotal
+                    </p>
+                  </div>
+                </div>
 
                 <div
                   className="
-                  mt-auto
-                  flex
-                  items-center
-                  gap-3
-                "
+      mt-auto
+      flex
+      items-center
+      gap-3
+    "
                 >
                   <button
                     onClick={() => decreaseQuantity(item.id)}
                     className="
-                      h-8
-                      w-8
-                      rounded-md
-                      border
-                    "
+        flex
+        h-8
+        w-8
+        items-center
+        justify-center
+        rounded-md
+        border
+        hover:bg-gray-100
+        dark:hover:bg-gray-800
+      "
                   >
                     -
                   </button>
 
-                  <span>{item.quantity}</span>
+                  <span
+                    className="
+        min-w-8
+        text-center
+        font-semibold
+      "
+                  >
+                    {item.quantity}
+                  </span>
 
                   <button
                     onClick={() => increaseQuantity(item.id)}
                     className="
-                      h-8
-                      w-8
-                      rounded-md
-                      border
-                    "
+        flex
+        h-8
+        w-8
+        items-center
+        justify-center
+        rounded-md
+        border
+        hover:bg-gray-100
+        dark:hover:bg-gray-800
+      "
                   >
                     +
                   </button>
@@ -193,10 +268,11 @@ export default function CartPage() {
                   <button
                     onClick={() => removeFromCart(item.id)}
                     className="
-                      ml-auto
-                      text-sm
-                      text-red-500
-                    "
+        ml-auto
+        text-sm
+        text-red-500
+        hover:text-red-700
+      "
                   >
                     Remove
                   </button>
@@ -245,7 +321,7 @@ export default function CartPage() {
             >
               <span>Subtotal</span>
 
-              <span>${cartTotal}</span>
+              <span>${subtotal.toFixed(2)}</span>
             </div>
 
             <div
