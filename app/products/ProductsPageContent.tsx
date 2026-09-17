@@ -30,32 +30,25 @@ export default function ProductsPageContent() {
 
   useEffect(() => {
     let result = [...products];
-    
+
     if (debouncedSearch.trim()) {
-        result = result.filter((product) =>
-        product.title
-            .toLowerCase()
-            .includes(debouncedSearch.toLowerCase()),
-        );
+      result = result.filter((product) =>
+        product.title.toLowerCase().includes(debouncedSearch.toLowerCase()),
+      );
     }
-    
+
     if (category !== "all") {
-        result = result.filter(
-        (product) => product.category.name === category,
-        );
+      result = result.filter((product) => product.category.name === category);
     }
-    
+
     if (maxPrice) {
-        result = result.filter(
-        (product) => product.price <= Number(maxPrice),
-        );
+      result = result.filter((product) => product.price <= Number(maxPrice));
     }
 
     setFilteredProducts(result);
-    
-    setCurrentPage(1);
 
-    }, [debouncedSearch, category, maxPrice, products]);
+    setCurrentPage(1);
+  }, [debouncedSearch, category, maxPrice, products]);
 
   useEffect(() => {
     const urlCategory = searchParams.get("category") || "all";
@@ -89,14 +82,58 @@ export default function ProductsPageContent() {
 
   if (loading) {
     return (
-      <div
+      <main
         className="
-        flex min-h-[50vh] items-center justify-center
-        text-text-secondary
+        mx-auto
+        w-full
+        max-w-7xl
+        px-4
+        py-10
       "
       >
-        Loading products...
-      </div>
+        <h1
+          className="
+          mb-8
+          text-4xl
+          font-bold
+          text-navy
+          dark:text-white
+        "
+        >
+          All Products
+        </h1>
+
+        {/* Filter skeleton */}
+
+        <div
+          className="
+          mb-10
+          grid
+          gap-4
+          rounded-xl
+          border
+          p-5
+          border-card
+          bg-surface
+          md:grid-cols-3
+        "
+        >
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div
+              key={index}
+              className="
+              h-10
+              animate-pulse
+              rounded-lg
+              bg-gray-200
+              dark:bg-gray-800
+            "
+            />
+          ))}
+        </div>
+
+        <ProductSkeletons />
+      </main>
     );
   }
 
@@ -325,5 +362,70 @@ export default function ProductsPageContent() {
         </p>
       )}
     </main>
+  );
+}
+
+function ProductSkeletons() {
+  return (
+    <div
+      className="
+        grid
+        gap-6
+        sm:grid-cols-2
+        lg:grid-cols-4
+      "
+    >
+      {Array.from({ length: 12 }).map((_, index) => (
+        <div key={index} className="animate-pulse">
+          {/* Image skeleton */}
+          <div
+            className="
+              aspect-4/5
+              rounded-xl
+              bg-gray-200
+              dark:bg-gray-800
+            "
+          />
+
+          {/* Product information skeleton */}
+          <div className="pt-3">
+            {/* Category */}
+            <div
+              className="
+                mb-2
+                h-3
+                w-20
+                rounded
+                bg-gray-200
+                dark:bg-gray-800
+              "
+            />
+
+            {/* Title */}
+            <div
+              className="
+                h-4
+                w-4/5
+                rounded
+                bg-gray-200
+                dark:bg-gray-800
+              "
+            />
+
+            {/* Price */}
+            <div
+              className="
+                mt-3
+                h-4
+                w-16
+                rounded
+                bg-gray-200
+                dark:bg-gray-800
+              "
+            />
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }

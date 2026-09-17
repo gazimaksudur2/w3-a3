@@ -105,8 +105,8 @@ export default function Header() {
             <Image
               src="/fastbuy-brand-logo.png"
               alt="FastBuy Logo"
-              width={68}
-              height={68}
+              width={40}
+              height={40}
             />
           </Link>
 

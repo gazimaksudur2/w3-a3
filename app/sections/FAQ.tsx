@@ -1,188 +1,109 @@
-import React from "react";
+"use client";
+
+import { useState } from "react";
+import { Minus, Plus } from "lucide-react";
+
+const questions = [
+  {
+    id: "shopping",
+    question: "How do I find the right product?",
+    answer:
+      "Browse by category or use the product search and price filters to narrow down your options. Each product page includes its images, price, and category details before you add it to your cart.",
+  },
+  {
+    id: "delivery",
+    question: "How much does delivery cost?",
+    answer:
+      "A flat $10 delivery fee is added to orders with at least one item. You will see the complete subtotal, delivery fee, and total before placing your order.",
+  },
+  {
+    id: "checkout",
+    question: "What information do I need at checkout?",
+    answer:
+      "Checkout requires your name, email, delivery address, city, phone number, and postal code so we can process and deliver your order correctly.",
+  },
+  {
+    id: "account",
+    question: "Do I need an account to buy something?",
+    answer:
+      "You can browse products without an account. Creating an account makes it easier to sign in and continue with features such as Buy Now and your profile.",
+  },
+  {
+    id: "support",
+    question: "How can I contact FastBuy support?",
+    answer:
+      "Visit our Contact page to send us a message, or use the support email and phone number listed there. Our team will be happy to help with your shopping questions.",
+  },
+];
 
 export default function FAQ() {
+  const [openQuestion, setOpenQuestion] = useState("shopping");
+
   return (
     <section className="bg-background dark:bg-surface">
-      <div className="container px-6 py-12 mx-auto">
-        <h1 className="text-2xl font-semibold text-center text-gray-800 lg:text-3xl dark:text-white">
-          Have any Questions?
+      <div className="container mx-auto px-6 py-12">
+        <h1 className="text-center text-2xl font-semibold text-gray-800 lg:text-3xl dark:text-white">
+          Shopping made simple
         </h1>
 
-        <div className="mt-8 xl:mt-16 lg:flex lg:-mx-12">
+        <div className="mt-8 lg:flex lg:-mx-12 xl:mt-16">
           <div className="lg:mx-12">
             <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
-              Table of Content
+              Quick links
             </h1>
 
             <div className="mt-4 space-y-4 lg:mt-8">
-              <a
-                href="#"
-                className="block text-brand hover:underline"
-              >
-                General
-              </a>
-              <a
-                href="#"
-                className="block text-text-secondary hover:underline"
-              >
-                Trust & Safety
-              </a>
-              <a
-                href="#"
-                className="block text-text-secondary hover:underline"
-              >
-                Services
-              </a>
-              <a
-                href="#"
-                className="block text-text-secondary hover:underline"
-              >
-                Billing
-              </a>
-              <a
-                href="#"
-                className="block text-text-secondary hover:underline"
-              >
-                Office Cleaning
-              </a>
+              {questions.map((question, index) => (
+                <a
+                  key={question.id}
+                  href={`#${question.id}`}
+                  className={`block hover:underline ${index === 0 ? "text-brand" : "text-text-secondary"}`}
+                >
+                  {question.id === "shopping"
+                    ? "Shopping"
+                    : question.id.charAt(0).toUpperCase() + question.id.slice(1)}
+                </a>
+              ))}
             </div>
           </div>
 
-          <div className="flex-1 mt-8 lg:mx-12 lg:mt-0">
-            <div>
-              <button className="flex items-center focus:outline-none">
-                <svg
-                  className="shrink-0 w-6 h-6 text-brand"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M20 12H4"
-                  ></path>
-                </svg>
+          <div className="mt-8 flex-1 lg:mx-12 lg:mt-0">
+            {questions.map((question) => {
+              const isOpen = openQuestion === question.id;
 
-                <h1 className="mx-4 text-xl text-gray-700 dark:text-white">
-                  How i can play for my appoinment ?
-                </h1>
-              </button>
+              return (
+                <div key={question.id} id={question.id} className="scroll-mt-24">
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    onClick={() => setOpenQuestion(isOpen ? "" : question.id)}
+                    className="flex w-full items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                  >
+                    {isOpen ? (
+                      <Minus className="h-6 w-6 shrink-0 text-brand" />
+                    ) : (
+                      <Plus className="h-6 w-6 shrink-0 text-brand" />
+                    )}
+                    <span className="mx-4 text-xl text-gray-700 dark:text-white">
+                      {question.question}
+                    </span>
+                  </button>
 
-              <div className="flex mt-8 md:mx-10">
-                <span className="border border-brand"></span>
+                  {isOpen && (
+                    <div className="mt-8 flex md:mx-10">
+                      <span className="border border-brand" />
+                      <p className="max-w-3xl px-4 text-text-secondary">
+                        {question.answer}
+                      </p>
+                    </div>
+                  )}
 
-                <p className="max-w-3xl px-4 text-text-secondary">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Magni, eum quae. Harum officiis reprehenderit ex quia ducimus
-                  minima id provident molestias optio nam vel, quidem iure
-                  voluptatem, repellat et ipsa.
-                </p>
-              </div>
-            </div>
-
-            <hr className="my-8 border-gray-200 dark:border-gray-700" />
-
-            <div>
-              <button className="flex items-center focus:outline-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="shrink-0 w-6 h-6 text-brand"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 4v16m8-8H4"
-                  />
-                </svg>
-
-                <h1 className="mx-4 text-xl text-gray-700 dark:text-white">
-                  What can i expect at my first consultation ?
-                </h1>
-              </button>
-            </div>
-
-            <hr className="my-8 border-gray-200 dark:border-gray-700" />
-
-            <div>
-              <button className="flex items-center focus:outline-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="shrink-0 w-6 h-6 text-brand"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 4v16m8-8H4"
-                  />
-                </svg>
-
-                <h1 className="mx-4 text-xl text-gray-700 dark:text-white">
-                  What are your opening house ?
-                </h1>
-              </button>
-            </div>
-
-            <hr className="my-8 border-gray-200 dark:border-gray-700" />
-
-            <div>
-              <button className="flex items-center focus:outline-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="shrink-0 w-6 h-6 text-brand"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 4v16m8-8H4"
-                  />
-                </svg>
-
-                <h1 className="mx-4 text-xl text-gray-700 dark:text-white">
-                  Do i need a referral ?
-                </h1>
-              </button>
-            </div>
-
-            <hr className="my-8 border-gray-200 dark:border-gray-700" />
-
-            <div>
-              <button className="flex items-center focus:outline-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="shrink-0 w-6 h-6 text-brand"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 4v16m8-8H4"
-                  />
-                </svg>
-
-                <h1 className="mx-4 text-xl text-gray-700 dark:text-white">
-                  Is the cost of the appoinment covered by private health
-                  insurance ?
-                </h1>
-              </button>
-            </div>
+                  {question.id !== questions[questions.length - 1].id && (
+                    <hr className="my-8 border-gray-200 dark:border-gray-700" />
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

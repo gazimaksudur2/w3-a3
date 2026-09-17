@@ -41,7 +41,7 @@ export default async function CategoriesSections() {
         ) : (
           /* Categories Grid */
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5">
-            {categories.map((category) => (
+            {categories.slice(0, 5).map((category) => (
               <Link
                 key={category.id}
                 href={`/products?category=${encodeURIComponent(category.name)}`}
